@@ -83,17 +83,15 @@ public class ControladorProducto {
 	
 	@PostMapping("/actualizarProducto")
 	public String actualizarProducto(Producto producto, @RequestParam("img") MultipartFile archivo) throws IOException {
+		Producto prod = new Producto();
+		prod = productoImpl.buscarProducto(producto.getId()).get();
+		
 		//cuando editamos el producto y no cambiamos la imagen
 		if(archivo.isEmpty()) {
-			Producto prod = new Producto();
-			prod = productoImpl.buscarProducto(producto.getId()).get();
 			producto.setImagen(prod.getImagen());
 		}else {
 			//cuando editamos el producto y si cambiamos la imagen
-			Producto prod = new Producto();
-			prod = productoImpl.buscarProducto(producto.getId()).get();
-			
-			//eliminar imagen cuando no sea la imagen por defecto
+			//tambien eliminamos la imagen anterior
 			if(!prod.getImagen().equals("default.jpg")) {
 				subirImagen.eliminarImagen(prod.getImagen());
 			}
@@ -101,7 +99,7 @@ public class ControladorProducto {
 			String nombreImagen = subirImagen.guardarImagen(archivo);
 			producto.setImagen(nombreImagen);
 		}
-		
+		producto.setUsuario(prod.getUsuario());
 		productoImpl.actualizarProducto(producto);
 		return "redirect:/productos";
 	}
@@ -120,26 +118,6 @@ public class ControladorProducto {
 		productoImpl.borrarProducto(id);
 		return "redirect:/productos";
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

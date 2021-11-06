@@ -22,7 +22,7 @@ public class Producto {
 	private String descripcion;
 	@Column(nullable=false)
 	private Double precio;
-	@Column
+	@Column(nullable=false)
 	private Integer cantidad;
 	@Column
 	private String imagen;
@@ -102,11 +102,7 @@ public class Producto {
 		this.usuario = usuario;
 	}
 
-	@Override
-	public String toString() {
-		return "Producto [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", precio=" + precio
-				+ ", cantidad=" + cantidad + ", imagen=" + imagen + ", usuario=" + usuario + "]";
-	}
+	
 
 	
 	
