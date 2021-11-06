@@ -149,43 +149,6 @@ public class ControladorProducto {
 	
 	
 	
-	/*
-	
-	@GetMapping("{id}")
-	public Producto buscarProducto(@PathVariable Integer id) {
-		return productoImpl.buscarProducto(id);
-	}
-	
-	@PostMapping
-	public Producto guardarProducto(@RequestBody Producto producto) {
-		return productoImpl.guardarProducto(producto);
-	}
-	
-	@GetMapping
-	public List<Producto> listarProductos(){
-		return productoImpl.listarProductos();
-	}
-	
-	@PutMapping("{id}")
-	public Producto actualizarProducto(@RequestBody Producto producto, @PathVariable Integer id) {
-		
-		Producto productoActual = productoImpl.buscarProducto(id);
-		
-		productoActual.setNombre(producto.getNombre());
-		productoActual.setDescripcion(producto.getDescripcion());
-		productoActual.setPrecio(producto.getPrecio());
-		productoActual.setStock(producto.getStock());
-		productoActual.setImagen(producto.getImagen());
-		
-		return productoImpl.guardarProducto(productoActual);
-	}
-	
-	@DeleteMapping("{id}")
-	public void borrarProducto(@PathVariable Integer id) {
-		productoImpl.borrarProducto(id);
-	}
-	*/
-	
 	
 
 }
