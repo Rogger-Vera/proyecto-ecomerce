@@ -1,0 +1,60 @@
+
+
+<!-- Nav -->
+
+<div th:fragment="header">
+
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top"
+		style="background-color: #000000;">
+		<div class="container">
+			<a class="navbar-brand"
+				style="text-shadow: 0px 0px 10px #FFF, 4px 2px 12px #DCB500, -4px 2px 12px #DCB500, 0px -6px 14px #FF7A00, 0px -12px 14px #FF6300, 0px -20px 14px #FF4400, 0px -30px 14px #0A7BFF"
+				th:href="@{/administrador}">RG Only technology</a>
+			<form class="form-inline my-2 my-lg-0" method="post" action="#">
+				<input class="form-control mr-sm-2" type="search"
+					placeholder="Buscar" aria-label="Search" name="nombre"
+					autocomplete="off">
+				<button class="btn btn-outline-warning" type="submit">
+					<i class="bi bi-search"></i>
+				</button>
+
+			</form>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarResponsive" aria-controls="navbarResponsive"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto light">
+					<li class="nav-item dropdown"><a
+						class="nav-link dropdown-toggle" href="#"
+						id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+						aria-haspopup="true" aria-expanded="false"> ADMIN </a>
+						<div class="dropdown-menu"
+							aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" th:href="@{/productos}">Productos</a>
+						</div></li>
+				</ul>
+			</div>
+
+		</div>
+	</nav>
+
+</div>
+
+
+<!-- Footer -->
+
+<div th:fragment="footer">
+
+	<footer class="py-5" style="background-color: #000000;">
+		<div class="container">
+			<p class="m-0 text-center text-white">Copyright &copy; RG Only
+				technology 2021</p>
+		</div>
+		<!-- /.container -->
+	</footer>
+
+</div>
+
+
