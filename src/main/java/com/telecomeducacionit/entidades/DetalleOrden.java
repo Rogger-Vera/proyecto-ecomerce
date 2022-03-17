@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,7 +19,7 @@ public class DetalleOrden {
 	private double precio;
 	private double total;
 	
-	@OneToOne
+	@ManyToOne
 	private OrdenCompra ordenCompra;
 	
 	@ManyToOne
@@ -30,16 +29,13 @@ public class DetalleOrden {
 		
 	}
 
-	public DetalleOrden(Integer id, String nombre, Integer cantidad, double precio, double total,
-			OrdenCompra ordenCompra, Producto producto) {
+	public DetalleOrden(Integer id, String nombre, Integer cantidad, double precio, double total) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.cantidad = cantidad;
 		this.precio = precio;
 		this.total = total;
-		this.ordenCompra = ordenCompra;
-		this.producto = producto;
 	}
 
 	public Integer getId() {
@@ -96,6 +92,12 @@ public class DetalleOrden {
 
 	public void setProducto(Producto producto) {
 		this.producto = producto;
+	}
+
+	@Override
+	public String toString() {
+		return "DetalleOrden [id=" + id + ", nombre=" + nombre + ", cantidad=" + cantidad + ", precio=" + precio
+				+ ", total=" + total + "]";
 	}
 	
 	

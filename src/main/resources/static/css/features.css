@@ -1,4 +1,50 @@
-
 body {
-  padding-top: 56px;
+  	padding-top: 56px;
 }
+
+/* nav */
+
+div .form-inline {
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+/* cards de prodructos */
+
+.row div a {
+	text-decoration: none;
+}
+.pCard {
+	border:none;
+	border-radius: 5px;
+	overflow: hidden;
+	text-decoration: none;
+	color: #000000;
+	transition: all 300ms ease-out;
+}
+.pCard:hover {
+	box-shadow: 1px 1px 10px rgba(0,0,0,0.4);
+	transform: translateY(-1%);
+	opacity: 0.8;
+}
+img {
+	padding: 10px;
+}
+div .botton {
+	color: rgb(255, 255, 255);
+	text-decoration: none;
+	background: rgb(255, 0, 0);
+	
+}
+div .btn {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+ /* h2 de la vista de registro */
+
+.margin-top {
+    margin-top: 2rem;
+}
+
+

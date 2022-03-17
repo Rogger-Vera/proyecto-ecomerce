@@ -1,7 +1,16 @@
 package com.telecomeducacionit.controladores;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,45 +20,105 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.telecomeducacionit.entidades.OrdenCompra;
 import com.telecomeducacionit.entidades.Usuario;
-import com.telecomeducacionit.servicios.UsuarioImpl;
+import com.telecomeducacionit.servicios.IOrdenCompraServicio;
+import com.telecomeducacionit.servicios.IUsuarioServicio;
+import com.telecomeducacionit.servicios.UsuarioServicioImpl;
 
-@RestController
+@Controller
 @CrossOrigin(origins= {"*"})
-@RequestMapping("/usuarios")
+@RequestMapping("/usuario")
 public class ControladorUsuario {
 	
+	private final Logger log = LoggerFactory.getLogger(ControladorUsuario.class);
+	
 	@Autowired
-	private UsuarioImpl usuarioImpl;
+	private IUsuarioServicio usuarioServico;
 	
-	@GetMapping("{id}")
-	public Usuario buscarUsuario(@PathVariable Integer id) {
-		return usuarioImpl.buscarUsuario(id);
+	@Autowired
+	private IOrdenCompraServicio ordenCompraServicio;
+	
+	
+	BCryptPasswordEncoder passEncode = new BCryptPasswordEncoder();
+	
+	
+	@GetMapping("/registro")
+	public String crearRegistro() {
+		
+		return "usuario/registro";
 	}
 	
-	//el metodo guardar usuario tambien nos permite actualizar el usuario
-	//solo hay que incorporar el id en la peticion.
-	@PostMapping
-	public Usuario guardarUsuario(@RequestBody Usuario usuario) {
-		return usuarioImpl.guardarUsuario(usuario);
+	@PostMapping("/save")
+	public String guardarUsuario(Usuario usuario) {
+		log.info("Registro usuario: {}", usuario);
+		usuario.setTipo("USER");
+		usuario.setPassword(passEncode.encode(usuario.getPassword()));
+		usuarioServico.guardarUsuario(usuario);
+		
+		return "redirect:/";
 	}
 	
-	@GetMapping
-	public List<Usuario> listarUsuarios(){
-		return usuarioImpl.listarUsuarios();
+	@GetMapping("/login")
+	public String login() {
+		return "usuario/login";
 	}
 	
-	@DeleteMapping("{id}")
-	public String borrarUsuario(@PathVariable Integer id) {
-		boolean borrado = usuarioImpl.borrarUsuario(id);
-		if (borrado) {
-			return "Se borro el usuario con el id " + id;
+	@GetMapping("/acceder")
+	public String acceder(Usuario usuario, HttpSession session) {
+		log.info("Accesos: {}", usuario);
+		
+		Optional<Usuario> user = usuarioServico.buscarUsuario(Integer.parseInt(session.getAttribute("idUsuario").toString()));
+		//log.info("User db: {}", user.get());
+		
+		if (user.isPresent()) {
+			session.setAttribute("idUsuario", user.get().getId());
+			if (user.get().getTipo().equals("ADMIN")) {
+				return "redirect:/administrador";
+			} else {
+				return "redirect:/";
+			}
 		}else {
-			return "No se pudo borrar el usuario con id " + id;
+			log.info("El usuario no existe");
 		}
+		
+		return "redirect:/";
 	}
 	
+	@GetMapping("/compras")
+	public String obtenerCompras(Model model, HttpSession session) {
+		
+		model.addAttribute("sesionId", session.getAttribute("idUsuario"));
+		
+		Usuario usuario = usuarioServico.buscarUsuario(Integer.parseInt(session.getAttribute("idUsuario").toString())).get();
+		List<OrdenCompra> ordenes = ordenCompraServicio.buscarPorUsuario(usuario);
+		
+		model.addAttribute("ordenes", ordenes);
+		
+		return "usuario/compras";
+	}
 	
+	@GetMapping("/detalleCompra/{id}")
+	public String detalleCompra(@PathVariable Integer id, HttpSession session, Model model) {
+		log.info("Id de la orden: {}", id);
+		Optional<OrdenCompra> orden = ordenCompraServicio.buscarPorId(id);
+		
+		model.addAttribute("detallesCompras", orden.get().getDetalleOrden());
+		
+		//session
+		model.addAttribute("sesionId", session.getAttribute("idUsuario"));
+		
+		return "usuario/detalleCompra";
+	}
+	
+	@GetMapping("/cerrar")
+	public String cerrarSesion(HttpSession session) {
+		
+		session.removeAttribute("idUsuario");
+		return "redirect:/";
+	}
+	
+
 	
 	
 	

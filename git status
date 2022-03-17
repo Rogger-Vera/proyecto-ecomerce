@@ -1,0 +1,17 @@
+[33mcommit 32c87b380d3504339f2d25ef840bb50126872136[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: Rogger Vera <veraluiss23@gmail.com>
+Date:   Sat Nov 6 02:26:52 2021 -0300
+
+    implementar funcionalidades de cargar imagenes y mostrar imagenes en la vista administrador
+
+[33mcommit bee6af8169246c041e7673c4d8a0960a2ef2a171[m
+Author: Rogger Vera <veraluiss23@gmail.com>
+Date:   Sat Nov 6 00:07:07 2021 -0300
+
+    prueba commit
+
+[33mcommit c78ff89e9ac7db02181df5dd4274d1bf51e353c2[m[33m ([m[1;32mmaster[m[33m)[m
+Author: Rogger Vera <veraluiss23@gmail.com>
+Date:   Fri Nov 5 23:37:07 2021 -0300
+
+    primer commit

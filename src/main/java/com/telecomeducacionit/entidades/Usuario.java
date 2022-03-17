@@ -16,21 +16,23 @@ public class Usuario {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(nullable=false)
+	@Column
 	private Integer id;
-	@Column(nullable=false)
+	@Column
 	private String nombre;
-	@Column(nullable=false)
+	@Column
 	private String apellido;
-	@Column(nullable=false)
+	@Column
 	private String email;
-	@Column(nullable=false)
-	private String usuario;
-	@Column(nullable=false)
-	private String contraseña;
-	@Column(nullable=false)
-	private String domicilio;
-	@Column(nullable=false)
+	@Column
+	private String username;
+	@Column
+	private String password;
+	@Column
+	private String direccion;
+	@Column
+	private String telefono;
+	@Column
 	private String tipo;
 	
 	@OneToMany(mappedBy = "usuario")
@@ -43,64 +45,84 @@ public class Usuario {
 		
 	}
 
-	public Usuario(Integer id, String nombre, String apellido, String email, String usuario, String contraseña,
-			String domicilio, String tipo) {
+	public Usuario(Integer id, String nombre, String apellido, String email, String username, String password,
+			String direccion, String telefono, String tipo) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.email = email;
-		this.usuario = usuario;
-		this.contraseña = contraseña;
-		this.domicilio = domicilio;
+		this.username = username;
+		this.password = password;
+		this.direccion = direccion;
+		this.telefono = telefono;
 		this.tipo = tipo;
 	}
 
-	public String getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(String usuario) {
-		this.usuario = usuario;
-	}
+	
 
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getNombre() {
 		return nombre;
 	}
+
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
+
 	public String getApellido() {
 		return apellido;
 	}
+
 	public void setApellido(String apellido) {
 		this.apellido = apellido;
 	}
+
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getContraseña() {
-		return contraseña;
-	}
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+
+	public String getUsername() {
+		return username;
 	}
 
-	public String getDomicilio() {
-		return domicilio;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 
-	public void setDomicilio(String domicilio) {
-		this.domicilio = domicilio;
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+
+	public String getTelefono() {
+		return telefono;
+	}
+
+	public void setTelefono(String telefono) {
+		this.telefono = telefono;
 	}
 
 	public String getTipo() {
@@ -129,10 +151,14 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email + ", usuario="
-				+ usuario + ", contraseña=" + contraseña + ", domicilio=" + domicilio + ", tipo=" + tipo
-				+ ", productos=" + productos + ", ordenes=" + ordenes + "]";
+		return "Usuario [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", email=" + email
+				+ ", username=" + username + ", password=" + password + ", direccion=" + direccion + ", telefono="
+				+ telefono + ", tipo=" + tipo + ", productos=" + productos + ", ordenes=" + ordenes + "]";
 	}
+
+
+
+	
 
 	
 	

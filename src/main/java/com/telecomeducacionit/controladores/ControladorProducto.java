@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +24,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.telecomeducacionit.entidades.Producto;
 import com.telecomeducacionit.entidades.Usuario;
-import com.telecomeducacionit.servicios.ProductoImpl;
+import com.telecomeducacionit.servicios.IProductoServicio;
+import com.telecomeducacionit.servicios.IUsuarioServicio;
+import com.telecomeducacionit.servicios.ProductoServicioImpl;
 import com.telecomeducacionit.servicios.SubirImagen;
 
 @Controller
@@ -33,14 +37,17 @@ public class ControladorProducto {
 	private final Logger logger = LoggerFactory.getLogger(ControladorProducto.class);
 	
 	@Autowired
-	private ProductoImpl productoImpl;
+	private IProductoServicio productoServicio;
+	
+	@Autowired
+	private IUsuarioServicio usuarioServicio;
 	
 	@Autowired
 	private SubirImagen subirImagen;
 	
 	@GetMapping("")
 	public String vistaProductos(Model model) {
-		model.addAttribute("productos", productoImpl.listarProductos());
+		model.addAttribute("productos", productoServicio.listarProductos());
 		
 		return "productos/listaProductos";
 	}
@@ -51,9 +58,10 @@ public class ControladorProducto {
 	}
 	
 	@PostMapping("/guardar")
-	public String guardarProducto(Producto producto, @RequestParam("img") MultipartFile archivo) throws IOException {
+	public String guardarProducto(Producto producto, @RequestParam("img") MultipartFile archivo, HttpSession session) throws IOException {
 		logger.info("Este es el objeto producto {}", producto);
-		Usuario usuario = new Usuario(1, "","","","","","","");
+		
+		Usuario usuario = usuarioServicio.buscarUsuario(Integer.parseInt(session.getAttribute("idUsuario").toString())).get();
 		producto.setUsuario(usuario);
 		
 		//imagen
@@ -65,14 +73,14 @@ public class ControladorProducto {
 			
 		}
 		
-		productoImpl.guardarProducto(producto);
+		productoServicio.guardarProducto(producto);
 		return "redirect:/productos";
 	}
 	
 	@GetMapping("/editarProducto/{id}")
 	public String editarProducto(@PathVariable Integer id, Model model) {
 		Producto producto = new Producto();
-		Optional<Producto> optProducto = productoImpl.buscarProducto(id);
+		Optional<Producto> optProducto = productoServicio.buscarProducto(id);
 		producto = optProducto.get();
 		
 		logger.info("Producto buscado: {}", producto);
@@ -84,7 +92,7 @@ public class ControladorProducto {
 	@PostMapping("/actualizarProducto")
 	public String actualizarProducto(Producto producto, @RequestParam("img") MultipartFile archivo) throws IOException {
 		Producto prod = new Producto();
-		prod = productoImpl.buscarProducto(producto.getId()).get();
+		prod = productoServicio.buscarProducto(producto.getId()).get();
 		
 		//cuando editamos el producto y no cambiamos la imagen
 		if(archivo.isEmpty()) {
@@ -100,7 +108,7 @@ public class ControladorProducto {
 			producto.setImagen(nombreImagen);
 		}
 		producto.setUsuario(prod.getUsuario());
-		productoImpl.actualizarProducto(producto);
+		productoServicio.actualizarProducto(producto);
 		return "redirect:/productos";
 	}
 	
@@ -108,14 +116,14 @@ public class ControladorProducto {
 	public String eliminarProducto(@PathVariable Integer id) {
 		
 		Producto prod = new Producto();
-		prod = productoImpl.buscarProducto(id).get();
+		prod = productoServicio.buscarProducto(id).get();
 		
 		//eliminar imagen cuando no sea la imagen por defecto
 		if(!prod.getImagen().equals("default.jpg")) {
 			subirImagen.eliminarImagen(prod.getImagen());
 		}
 		
-		productoImpl.borrarProducto(id);
+		productoServicio.borrarProducto(id);
 		return "redirect:/productos";
 	}
 	

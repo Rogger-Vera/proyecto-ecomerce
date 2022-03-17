@@ -1,13 +1,14 @@
 package com.telecomeducacionit.entidades;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -26,24 +27,23 @@ public class OrdenCompra {
 	@ManyToOne
 	private Usuario usuario;
 	
-	@OneToOne(mappedBy="ordenCompra")
-	private DetalleOrden detalleOrden;
+	@OneToMany(mappedBy="ordenCompra")
+	private List<DetalleOrden> detalleOrden;
 	
 	public OrdenCompra() {
 		
 	}
 
-	public OrdenCompra(Integer id, String numero, Date fechaCreacion, Date fechaRecibida, double total, Usuario usuario,
-			DetalleOrden detalleOrden) {
+	public OrdenCompra(Integer id, String numero, Date fechaCreacion, Date fechaRecibida, double total) {
 		super();
 		this.id = id;
 		this.numero = numero;
 		this.fechaCreacion = fechaCreacion;
 		this.fechaRecibida = fechaRecibida;
 		this.total = total;
-		this.usuario = usuario;
-		this.detalleOrden = detalleOrden;
 	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -93,13 +93,21 @@ public class OrdenCompra {
 		this.usuario = usuario;
 	}
 
-	public DetalleOrden getDetalleOrden() {
+	public List<DetalleOrden> getDetalleOrden() {
 		return detalleOrden;
 	}
 
-	public void setDetalleOrden(DetalleOrden detalleOrden) {
+	public void setDetalleOrden(List<DetalleOrden> detalleOrden) {
 		this.detalleOrden = detalleOrden;
 	}
+
+	@Override
+	public String toString() {
+		return "OrdenCompra [id=" + id + ", numero=" + numero + ", fechaCreacion=" + fechaCreacion + ", fechaRecibida="
+				+ fechaRecibida + ", total=" + total + "]";
+	}
+
+	
 	
 	
 	

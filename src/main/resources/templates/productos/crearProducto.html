@@ -40,11 +40,11 @@
   </h1>
 
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-    <li class="breadcrumb-item active">Guardar Productos</li>
+    <li class="breadcrumb-item"><a th:href="@{/administrador}">Home</a></li>
+    <li class="breadcrumb-item active">Agregar Productos</li>
   </ol>
 
-  <h2>Guardar Producto</h2>
+  <h2>Datos del Producto</h2>
   <form class="form-horizontal" th:action="@{/productos/guardar}" method="post" enctype="multipart/form-data">
     <div class="form-group">
       <label class="control-label col-sm-2" for="nombre">Nombre:</label>
@@ -97,7 +97,7 @@
   </form>
 
 </div>
-<!-- /.container -->
+
 
 <!-- Footer -->
 
